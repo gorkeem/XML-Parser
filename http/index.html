@@ -1,0 +1,143 @@
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            img{
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                padding: 3px;
+                width: 200px;
+            }
+            img:hover{
+                box-shadow: 0 0 5px 5px rgba(0,140,186,0.5);
+            }
+        </style>
+        <a><img src="img/logo.jpg" style="position:absolute" top="30:px" left="30:px" height="50" width="200" align="left"></a>
+
+        <title>XML Parser</title>
+
+        <style>
+
+        .sectionItem{
+            background-color: #0a122a;
+            color: white;
+            margin-top: 1.5em;
+            cursor:pointer;
+        }
+        #myData{
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        #myData td, #myData th{
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        #myData tr: nth-child(even) {background-color: #f2f2f2;}
+        #myData tr: hover{background-color: #ddd;}
+        #myData th{
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .sectionItem:focus,
+        .sectionItem:hover {
+            background-color: #00a21d;
+            color: white;
+            margin-top: 1.5em;
+        }
+
+        </style>
+
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+        <link href="css/fontawefome_all.css" rel="stylesheet">
+        <link href="css/dataTables.bootstrap.min.css" rel="stylesheet">
+
+    </head>
+    <title>XML Parser</title>
+    <body class="bodyID">
+
+        <p id="Title"></p>
+        <div  class="container-fluid">
+            <h1 align="center">XML Parser Report</h1>
+        </div>
+
+        <nav class="navbar navbar-default no-margin" role="navigation" style="background-color: #c11515; border-color: #0a122a;">
+            <h4 style="color:white; margin-left: 20px"><em class="fa fa-file-alt"></em> {{info["planName"]}} (v{{info["netVersion"]}}) @ {{info["planDate"]}}</h4>
+
+            <div class="navbar-header fixed-brand">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sysmon-menu-items">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+        </nav>
+        <div id="wrapper">
+            <div id="sidebar-wrapper" style="background: #0a122a; width: 450px">
+                <ul class="sidebar-nav" style="width: 450px" id="menu">
+                    <h4 align="center" style="color:white"> Sections </h4>
+                    <hr style="color:white">
+
+                    % for section in info["sections"]:
+                    <li class="sectionItem" id="sectionItemId"><i class="fa fa-dot-circle" style="color:#00a21d"></i> {{section}} </li>
+                    % end
+                </ul>
+            </div>
+            <div id="page-content-wrapper">
+                <div class="container-fluid xyz">
+                    <div class="row">
+                        <div id="contentTitle" class="col-lg-12" style=" left:200px; width: 1050px">
+                            <form action="/upload" method="post" enctype="multipart/form-data">
+                                <p>Choose an xml file to parse!</p>
+                                <input id="fileId" type="file" name="fileUpload" onchange="this.parentNode.submit();">
+                            </form>
+                        </div>
+                        <div id="contentRight" class="col-lg-12" style=" left:200px; width: 1050px">
+
+                            
+                        </div>
+                        <footer align="right">Created by Görkem Yılmaz @ June, 2019</footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.dataTables.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/dataTables.bootstrap.min.js"></script>
+    <script>
+        // Load the necessary section when it's name has been clicked
+        $(".sectionItem").click(function(event){
+            str = event.target.innerText.toString();
+            str = str.trim();
+            str = str.split(" ").join("_");
+            str = str.toLowerCase();
+            section = str;
+            link = "content/" + str;
+            nameOfHtml = str + ".html";
+            linkHtml = link + ".html";
+
+            $('#contentRight').load(linkHtml, (error) => {
+                if(error.indexOf("Error: 404 Not Found") != -1)
+                    errHandler();
+            });
+            function errHandler(){
+                console.log("ERROR!");
+            }
+        });
+        // This function is used for creating a data table with bootstrap.
+        $(document).ready(function(){
+            $('#myData').DataTable();
+        });
+    </script>
+</html>
