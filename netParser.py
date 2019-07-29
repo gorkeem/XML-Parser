@@ -7,7 +7,7 @@ from bottle import route, run, template, static_file, request, redirect
 
 info = {"planName"         :"XML Parser",
         "netVersion"       :"0.0.1",
-        "planDate"         :"05.07.2019",
+        "implementationPeriod" :"13.06.2019 - 05.07.2019",
         "parsedData"       :{},
         "sections"         :[]
         }
@@ -108,7 +108,7 @@ def upload():
     global info
     info = {"planName"          :"XML Parser",
             "netVersion"        :"0.0.1",
-            "planDate"          :"05.07.2019",
+            "implementationPeriod":"13.06.2019 - 05.07.2019",
             "parsedData"        : {},
             "sections"          : []
             }
